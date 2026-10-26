@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta Digital - Óptica Diversa</title>
+    <!-- Tailwind CSS para estilos rápidos y modernos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts para una tipografía elegante -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome para íconos realistas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Alpine.js para interactividad ligera -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+        
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .icon-shadow {
+            box-shadow: 0 4px 18px 0 rgba(255, 230, 0, 0.35);
+        }
+        .interactive-element {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .interactive-element:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 10px 25px -5px rgba(255, 230, 0, 0.5);
+        }
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        /* Animación escalonada para íconos */
+        .icon-animate {
+            opacity: 0;
+            animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        /* Evita el scroll del body cuando algún modal está abierto */
+        body.modal-open {
+            overflow: hidden;
+        }
+        /* Custom scrollbar para los modales */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-black text-slate-100 min-h-screen">
+    <div class="w-full min-h-screen flex items-center justify-center p-0 sm:p-4 bg-gradient-to-br from-black via-zinc-950 to-neutral-900">
+        <!-- Contenedor Principal (Vista Móvil en Escritorio) -->
+        <div x-data="appData()" 
+             x-init="init()" 
+             x-watch="qrModal || servicesModal || scheduleModal || installModal || calendarModal || timePickerModal || successModal, value => { document.body.classList.toggle('modal-open', value) }"
+             class="w-full min-h-screen sm:min-h-0 sm:h-auto sm:max-w-md bg-zinc-900 border border-zinc-800 sm:shadow-2xl sm:shadow-yellow-500/10 sm:rounded-3xl overflow-hidden fade-in flex flex-col justify-between">
+            
+            <div>
+                <!-- Sección del Banner Superior -->
+                <div class="relative h-48 bg-cover bg-center" style="background-image: url('https://i.postimg.cc/3RLZdYHt/Whats-App-Image-2026-10-26-at-11-24-16-AM.jpg');">
+                    <div class=""></div>
+                </div>
+
+                <!-- Sección de Foto de Perfil -->
+                <div class="flex justify-center -mt-20 z-10 relative">
+                    <div class="relative">
+                        <img class="w-36 h-36 rounded-full border-4 border-[#FFE600] object-cover shadow-xl bg-zinc-800" 
+                             src="https://i.postimg.cc/PrDHhJbJ/480753630-656380846788416-174192643221461488-n.jpg" 
+                             alt="Foto de perfil de Óptica Diversa" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/150x150/18181b/e4e4e7?text=Diversa';">
+                        <div class="absolute bottom-2 right-2 bg-[#FFE600] text-zinc-950 rounded-full w-8 h-8 flex items-center justify-center border-2 border-zinc-900 shadow">
+                            <i class="fa-solid fa-check text-xs font-bold"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Información -->
+                <div class="text-center px-6 pt-4 pb-2">
+                    <h1 class="text-3xl font-extrabold text-white tracking-tight">ÓPTICA DIVERSA</h1>
+                    <p class="text-[#FFE600] font-bold text-lg">Taller Óptico</p>
+                    <p class="text-xs text-zinc-400 mt-2 italic flex items-center justify-center gap-1">
+                        <i class="fa-regular fa-hand-pointer text-xs text-[#FFE600]"></i> Toca los botones para interactuar
+                    </p>
+                </div>
+
+                <!-- Sección de Iconos Interactivos -->
+                <div class="px-6 pt-6 pb-4">
+                    <div class="grid grid-cols-3 gap-y-6 gap-x-4">
+                        <!-- Sitio Web -->
+                        <a href="https://www.opticadiversa.co/" target="_blank" class="flex flex-col items-center text-center group interactive-element icon-animate" style="animation-delay: 0.05s;" title="Visita nuestro sitio web">
+                            <div class="w-16 h-16 rounded-2xl bg-[#FFE600] text-zinc-950 flex items-center justify-center icon-shadow font-bold">
+                                <i class="fa-solid fa-globe text-2xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-zinc-300 mt-2">Sitio Web</p>
+                        </a>
+                        <!-- Llamar -->
+                        <a href="tel:3116108800" class="flex flex-col items-center text-center group interactive-element icon-animate" style="animation-delay: 0.1s;" title="Llámame">
+                            <div class="w-16 h-16 rounded-2xl bg-[#FFE600] text-zinc-950 flex items-center justify-center icon-shadow">
+                                <i class="fa-solid fa-phone text-2xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-zinc-300 mt-2">Llamar</p>
+                        </a>
+                        <!-- Horario -->
+                        <div @click="scheduleModal = true" class="cursor-pointer flex flex-col items-center text-center group interactive-element icon-animate" style="animation-delay: 0.2s;" title="Ver Horario de Atención">
+                            <div class="w-16 h-16 rounded-2xl bg-[#FFE600] text-zinc-950 flex items-center justify-center icon-shadow">
+                                <i class="fa-solid fa-clock text-2xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-zinc-300 mt-2">Horario</p>
+                        </div>
+                        <!-- Servicios -->
+                        <div @click="servicesModal = true" class="cursor-pointer flex flex-col items-center text-center group interactive-element icon-animate" style="animation-delay: 0.3s;" title="Ver mis Servicios">
+                            <div class="w-16 h-16 rounded-2xl bg-[#FFE600] text-zinc-950 flex items-center justify-center icon-shadow">
+                                <i class="fa-solid fa-hand-holding-heart text-2xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-zinc-300 mt-2">Servicios</p>
+                        </div>
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/profile.php?id=100072524381808" target="_blank" class="flex flex-col items-center text-center group interactive-element icon-animate" style="animation-delay: 0.4s;" title="Sígueme en Facebook">
+                            <div class="w-16 h-16 rounded-2xl bg-[#FFE600] text-zinc-950 flex items-center justify-center icon-shadow">
+                                <i class="fa-brands fa-facebook-f text-2xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-zinc-300 mt-2">Facebook</p>
+                        </a>
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/opticadiversa1/" target="_blank" class="flex flex-col items-center text-center group interactive-element icon-animate" style="animation-delay: 0.5s;" title="Sígueme en Instagram">
+                            <div class="w-16 h-16 rounded-2xl bg-[#FFE600] text-zinc-950 flex items-center justify-center icon-shadow">
+                                <i class="fa-brands fa-instagram text-2xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-zinc-300 mt-2">Instagram</p>
+                        </a>
+                        <!-- WhatsApp -->
+                        <a href="https://wa.link/sdvbqu" target="_blank" class="flex flex-col items-center text-center group interactive-element icon-animate" style="animation-delay: 0.6s;" title="Chatea por WhatsApp">
+                            <div class="w-16 h-16 rounded-2xl bg-[#FFE600] text-zinc-950 flex items-center justify-center icon-shadow">
+                                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-zinc-300 mt-2">WhatsApp</p>
+                        </a>
+                        <!-- Correo -->
+                        <a href="mailto:opticadiversamzls@gmail.com" target="_blank" class="flex flex-col items-center text-center group interactive-element icon-animate" style="animation-delay: 0.7s;" title="Envíame un Mensaje">
+                            <div class="w-16 h-16 rounded-2xl bg-[#FFE600] text-zinc-950 flex items-center justify-center icon-shadow">
+                                <i class="fa-solid fa-envelope text-2xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-zinc-300 mt-2">Correo</p>
+                        </a>
+                        <!-- Ubicación -->
+                        <a href="https://www.google.com/maps/place/Cl+24+%23+21-29,+Manizales,+Caldas/@5.0682126,-75.5163704,17z/data=!4m16!1m9!3m8!1s0x8e476ffa77160c11:0xfb980375e9b8b8ae!2sCl+24+%23+21-29,+Manizales,+Caldas!3b1!8m2!3d5.068288!4d-75.516292!10e5!16s%2Fg%2F11l_60xq76!3m5!1s0x8e476ffa77160c11:0xfb980375e9b8b8ae!8m2!3d5.068288!4d-75.516292!16s%2Fg%2F11l_60xq76?entry=ttu&g_ep=EgoyMDI2MTAyMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="flex flex-col items-center text-center group interactive-element icon-animate" style="animation-delay: 0.8s;" title="Ver mi Ubicación">
+                            <div class="w-16 h-16 rounded-2xl bg-[#FFE600] text-zinc-950 flex items-center justify-center icon-shadow">
+                                <i class="fa-solid fa-location-dot text-2xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-zinc-300 mt-2">Ubicación</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de Acción Inferiores -->
+            <div class="px-6 py-6 space-y-4 bg-zinc-950 border-t border-zinc-800 sm:rounded-b-3xl">
+                <button @click="calendarModal = true" class="block w-full bg-[#FFE600] hover:bg-[#ebd300] text-zinc-950 font-extrabold py-4 px-4 rounded-xl text-center interactive-element uppercase tracking-wider text-sm shadow-lg shadow-[#FFE600]/20 transition-all duration-300">
+                    <i class="fa-solid fa-calendar-days mr-2"></i> Agenda tu Cita
+                </button>
+                <div class="flex gap-4">
+                    <button @click="downloadVCard()" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 font-bold py-3 px-4 rounded-xl text-center border border-zinc-700 shadow-sm interactive-element flex items-center justify-center gap-2 text-sm transition-all duration-300">
+                        <i class="fa-solid fa-user-plus text-[#FFE600]"></i> Guardar Contacto
+                    </button>
+                    <button @click="qrModal = true" class="w-1/3 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 font-bold py-3 px-4 rounded-xl text-center border border-zinc-700 shadow-sm interactive-element flex items-center justify-center gap-2 text-sm transition-all duration-300">
+                        <i class="fa-solid fa-qrcode text-[#FFE600]"></i> QR
+                    </button>
+                </div>
+                <p class="text-center text-[10px] text-zinc-500 mt-2">Óptica Diversa © 2026. Todos los derechos reservados.</p>
+            </div>
+
+            <!-- MODALS -->
+
+            <!-- Modal del Código QR -->
+            <div x-show="qrModal" @keydown.escape.window="qrModal = false" class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-50 p-4" x-transition.opacity style="display: none;">
+                <div @click.away="qrModal = false" class="bg-zinc-900 rounded-2xl shadow-2xl w-full max-w-sm text-center border border-zinc-800 overflow-hidden" x-transition.scale>
+                    <div class="bg-[#FFE600] text-zinc-950 p-5">
+                        <h3 class="text-xl font-bold flex items-center justify-center gap-2"><i class="fa-solid fa-qrcode"></i> Compartir Contacto</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-zinc-400 text-sm mb-5">
+                            ¡Escanea este código QR con la cámara de otro teléfono para abrir mi tarjeta de presentación digital al instante!
+                        </p>
+                        <div class="bg-white p-4 rounded-xl inline-block shadow-inner border border-zinc-200 mb-5">
+                            <img :src="getQrCodeUrl()" alt="Código QR de Contacto" class="w-52 h-52 mx-auto">
+                        </div>
+                        <div>
+                            <button @click="qrModal = false" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold py-2.5 px-6 rounded-xl transition-colors text-sm w-full border border-zinc-700">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Servicios -->
+            <div x-show="servicesModal" @keydown.escape.window="servicesModal = false" class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-50 p-4" x-transition.opacity style="display: none;">
+                <div @click.away="servicesModal = false" class="bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-md max-h-[85vh] flex flex-col border border-zinc-800 overflow-hidden" x-transition.scale>
+                    <div class="bg-[#FFE600] text-zinc-950 p-5 text-center flex-none">
+                        <h3 class="text-xl font-bold flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-hand-holding-heart"></i> Servicios Especializados
+                        </h3>
+                    </div>
+                    
+                    <!-- Lista de servicios scrollable -->
+                    <div class="p-6 overflow-y-auto space-y-6 custom-scrollbar flex-grow bg-zinc-950">
+                        <!-- Servicio 1 -->
+                        <div class="flex items-start gap-4 bg-zinc-900 p-4 rounded-2xl shadow-sm border border-zinc-800 hover:border-[#FFE600]/50 transition-all">
+                            <img src="https://i.postimg.cc/1XMYQFcN/e-visual.jpg" 
+                                 alt="Examen visual" 
+                                 class="w-20 h-20 rounded-xl object-cover shadow-sm flex-none"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/100x100/27272a/e4e4e7?text=Examen';">
+                            <div>
+                                <h4 class="font-bold text-white text-base">Examen visual integral</h4>
+                                <p class="text-zinc-400 text-xs mt-1 leading-relaxed">Evaluación completa de la salud visual para detectar problemas de visión y determinar la fórmula adecuada para cada paciente.</p>
+                            </div>
+                        </div>
+
+                        <!-- Servicio 2 -->
+                        <div class="flex items-start gap-4 bg-zinc-900 p-4 rounded-2xl shadow-sm border border-zinc-800 hover:border-[#FFE600]/50 transition-all">
+                            <img src="https://i.postimg.cc/xCfvS4sj/cristales.jpg" 
+                                 alt="Lentes oftálmicos" 
+                                 class="w-20 h-20 rounded-xl object-cover shadow-sm flex-none"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/100x100/27272a/e4e4e7?text=Lentes';">
+                            <div>
+                                <h4 class="font-bold text-white text-base">Adaptación de lentes oftálmicos</h4>
+                                <p class="text-zinc-400 text-xs mt-1 leading-relaxed">Asesoría personalizada para elegir lentes que mejoren la visión y se ajusten a las necesidades diarias del usuario.</p>
+                            </div>
+                        </div>
+
+                        <!-- Servicio 3 -->
+                        <div class="flex items-start gap-4 bg-zinc-900 p-4 rounded-2xl shadow-sm border border-zinc-800 hover:border-[#FFE600]/50 transition-all">
+                            <img src="https://i.postimg.cc/d0qk7T8Q/gafas.jpg" 
+                                 alt="Venta de monturas" 
+                                 class="w-20 h-20 rounded-xl object-cover shadow-sm flex-none"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/100x100/27272a/e4e4e7?text=Monturas';">
+                            <div>
+                                <h4 class="font-bold text-white text-base">Venta de monturas exclusivas</h4>
+                                <p class="text-zinc-400 text-xs mt-1 leading-relaxed">Amplia variedad de monturas modernas, clásicas y deportivas para todas las edades y estilos.</p>
+                            </div>
+                        </div>
+
+                        <!-- Servicio 4 -->
+                        <div class="flex items-start gap-4 bg-zinc-900 p-4 rounded-2xl shadow-sm border border-zinc-800 hover:border-[#FFE600]/50 transition-all">
+                            <img src="https://i.postimg.cc/bY2xfkgL/entrada-lentes-contacto.jpg" 
+                                 alt="Lentes de contacto" 
+                                 class="w-20 h-20 rounded-xl object-cover shadow-sm flex-none"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/100x100/27272a/e4e4e7?text=Contacto';">
+                            <div>
+                                <h4 class="font-bold text-white text-base">Lentes de contacto</h4>
+                                <p class="text-zinc-400 text-xs mt-1 leading-relaxed">Suministro y adaptación de lentes de contacto blandos, tóricos y multifocales para mayor comodidad visual.</p>
+                            </div>
+                        </div>
+
+                        <!-- Servicio 5 -->
+                        <div class="flex items-start gap-4 bg-zinc-900 p-4 rounded-2xl shadow-sm border border-zinc-800 hover:border-[#FFE600]/50 transition-all">
+                            <img src="https://i.postimg.cc/0jqbsM5t/taller-optico-en-vitoria.jpg" 
+                                 alt="Reparación de gafas" 
+                                 class="w-20 h-20 rounded-xl object-cover shadow-sm flex-none"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/100x100/27272a/e4e4e7?text=Taller';">
+                            <div>
+                                <h4 class="font-bold text-white text-base">Reparación y Mantenimiento</h4>
+                                <p class="text-zinc-400 text-xs mt-1 leading-relaxed">Ajuste, cambio de tornillos, soldaduras menores, venta de accesorios y limpieza profesional para prolongar la vida útil de las gafas.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 bg-zinc-900 border-t border-zinc-800 flex justify-center flex-none">
+                        <button @click="servicesModal = false" class="bg-[#FFE600] text-zinc-950 font-bold py-3 px-8 rounded-xl w-full hover:bg-[#ebd300] transition-colors shadow-sm">
+                            Cerrar Servicios
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Horario de Atención -->
+            <div x-show="scheduleModal" @keydown.escape.window="scheduleModal = false" class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-50 p-4" x-transition.opacity style="display: none;">
+                <div @click.away="scheduleModal = false" class="bg-zinc-900 rounded-2xl shadow-2xl w-full max-w-sm text-center border border-zinc-800 overflow-hidden" x-transition.scale>
+                    <div class="bg-[#FFE600] text-zinc-950 p-5">
+                        <h3 class="text-xl font-bold flex items-center justify-center gap-2"><i class="fa-solid fa-clock"></i> Horario de Atención</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4 text-zinc-300">
+                            <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+                                <span class="font-semibold text-white">Lunes a Viernes</span>
+                                <span class="bg-[#FFE600]/10 text-[#FFE600] border border-[#FFE600]/30 text-sm px-3 py-1 rounded-full font-medium">8:30 AM - 6:30 PM</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+                                <span class="font-semibold text-white">Sábados</span>
+                                <span class="bg-[#FFE600]/10 text-[#FFE600] border border-[#FFE600]/30 text-sm px-3 py-1 rounded-full font-medium">9:00 AM - 2:00 PM</span>
+                            </div>
+                            <div class="flex justify-between items-center py-1">
+                                <span class="font-semibold text-white">Domingos y Festivos</span>
+                                <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-sm px-3 py-1 rounded-full font-medium">Cerrado</span>
+                            </div>
+                        </div>
+                        <div class="mt-8 flex justify-center">
+                            <button @click="scheduleModal = false" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-bold py-3 px-6 rounded-xl transition-colors text-sm w-full border border-zinc-700">
+                                Entendido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Calendario para Citas -->
+            <div x-show="calendarModal" @keydown.escape.window="calendarModal = false" class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-50 p-4" x-transition.opacity style="display: none;">
+                <div @click.away="calendarModal = false" class="bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-sm border border-zinc-800 overflow-hidden" x-transition.scale>
+                    <div class="bg-[#FFE600] text-zinc-950 p-5 text-center">
+                        <h3 class="text-xl font-bold flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-calendar-check"></i> Agenda tu Consulta
+                        </h3>
+                        <p class="text-zinc-900 font-medium text-xs mt-1">Elige un día disponible para continuar</p>
+                    </div>
+                    <div class="p-5">
+                        <!-- Navegación de Meses -->
+                        <div class="flex items-center justify-between mb-4 bg-zinc-950 p-2 rounded-xl border border-zinc-800">
+                            <button @click="previousMonth()" class="p-2 rounded-lg hover:bg-zinc-800 text-zinc-300 transition">
+                                <i class="fa-solid fa-chevron-left text-sm"></i>
+                            </button>
+                            <h4 class="font-bold text-white text-sm tracking-wide uppercase" x-text="`${monthNames[currentMonth]} ${currentYear}`"></h4>
+                            <button @click="nextMonth()" class="p-2 rounded-lg hover:bg-zinc-800 text-zinc-300 transition">
+                                <i class="fa-solid fa-chevron-right text-sm"></i>
+                            </button>
+                        </div>
+
+                        <!-- Días de la Semana -->
+                        <div class="grid grid-cols-7 gap-1 text-center text-xs font-semibold text-zinc-400 mb-2">
+                            <template x-for="day in dayNames" :key="day">
+                                <div class="py-1" x-text="day"></div>
+                            </template>
+                        </div>
+
+                        <!-- Grilla de Días -->
+                        <div class="grid grid-cols-7 gap-1">
+                            <template x-for="day in calendarDays" :key="day.id">
+                                <div class="text-center py-1">
+                                    <button x-show="day.date" 
+                                            @click="selectDate(day)"
+                                            :class="{
+                                                'bg-[#FFE600] text-zinc-950 shadow-md font-bold scale-105': day.isSelected,
+                                                'text-zinc-200 hover:bg-[#FFE600]/20 hover:text-[#FFE600]': !day.isSelected && !day.isPast && !day.isSunday,
+                                                'text-zinc-600 cursor-not-allowed opacity-40': day.isPast || day.isSunday,
+                                                'border-2 border-[#FFE600] font-bold': day.isToday && !day.isSelected
+                                            }" 
+                                            class="w-9 h-9 rounded-xl transition-all flex items-center justify-center text-xs"
+                                            :disabled="day.isPast || day.isSunday">
+                                        <span x-text="day.date"></span>
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Indicadores -->
+                        <div class="flex justify-between items-center text-[10px] text-zinc-400 mt-4 px-2 border-t border-zinc-800 pt-3">
+                            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full border border-[#FFE600]"></span> Hoy</span>
+                            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-[#FFE600]"></span> Seleccionado</span>
+                            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-zinc-700"></span> No Disponible</span>
+                        </div>
+
+                        <div class="mt-5 flex gap-2">
+                            <button @click="calendarModal = false" class="w-1/3 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-semibold py-3 px-4 rounded-xl transition text-xs border border-zinc-700">
+                                Cancelar
+                            </button>
+                            <button @click="confirmDate()" :disabled="!selectedDay" :class="selectedDay ? 'bg-[#FFE600] text-zinc-950 font-bold' : 'bg-zinc-800 text-zinc-600 cursor-not-allowed border border-zinc-800'" class="w-2/3 py-3 px-4 rounded-xl transition text-xs shadow-sm flex items-center justify-center gap-1">
+                                Continuar <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Seleccionar Hora -->
+            <div x-show="timePickerModal" @keydown.escape.window="timePickerModal = false" class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-50 p-4" x-transition.opacity style="display: none;">
+                <div @click.away="timePickerModal = false" class="bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-sm border border-zinc-800 overflow-hidden" x-transition.scale>
+                    <div class="bg-[#FFE600] text-zinc-950 p-5 text-center">
+                        <h3 class="text-xl font-bold flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-clock"></i> Selecciona la Hora
+                        </h3>
+                        <p class="text-zinc-950 font-medium text-xs mt-1" x-text="formattedSelectedDate"></p>
+                    </div>
+                    <div class="p-5">
+                        <div class="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto custom-scrollbar p-1">
+                            <template x-for="time in availableTimes" :key="time">
+                                <button @click="selectTime(time)" 
+                                        :class="selectedTime === time ? 'bg-[#FFE600] text-zinc-950 font-bold border-transparent shadow-md' : 'bg-zinc-950 text-zinc-300 hover:bg-[#FFE600]/20 hover:text-[#FFE600] border-zinc-800'"
+                                        class="py-3 px-2 rounded-xl text-xs font-medium border text-center transition-all flex items-center justify-center gap-2">
+                                    <i class="fa-regular fa-clock text-xs"></i>
+                                    <span x-text="time"></span>
+                                </button>
+                            </template>
+                        </div>
+
+                        <div class="mt-5 flex gap-2">
+                            <button @click="timePickerModal = false; calendarModal = true" class="w-1/3 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-semibold py-3 px-4 rounded-xl transition text-xs border border-zinc-700">
+                                Volver
+                            </button>
+                            <button @click="confirmBooking()" :disabled="!selectedTime" :class="selectedTime ? 'bg-[#FFE600] text-zinc-950 font-bold' : 'bg-zinc-800 text-zinc-600 cursor-not-allowed border border-zinc-800'" class="w-2/3 py-3 px-4 rounded-xl transition text-xs shadow-sm flex items-center justify-center gap-1">
+                                Confirmar Cita <i class="fa-brands fa-whatsapp ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Exito / Confirmacion -->
+            <div x-show="successModal" @keydown.escape.window="successModal = false" class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-50 p-4" x-transition.opacity style="display: none;">
+                <div @click.away="successModal = false" class="bg-zinc-900 rounded-3xl shadow-2xl w-full max-w-sm text-center border border-zinc-800 overflow-hidden" x-transition.scale>
+                    <div class="p-6">
+                        <div class="w-16 h-16 bg-[#FFE600]/20 text-[#FFE600] border border-[#FFE600]/30 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">¡Cita Solicitada!</h3>
+                        <p class="text-zinc-400 text-xs leading-relaxed mb-6">
+                            Serás redirigido a WhatsApp para confirmar los detalles de tu cita para el día <strong class="text-[#FFE600]" x-text="formattedSelectedDate"></strong> a las <strong class="text-[#FFE600]" x-text="selectedTime"></strong>.
+                        </p>
+                        <button @click="openWhatsAppBooking()" class="bg-[#FFE600] hover:bg-[#ebd300] text-zinc-950 font-extrabold py-3.5 px-6 rounded-xl w-full transition text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#FFE600]/20">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> Abrir WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Script de Alpine.js con la Lógica -->
+    <script>
+        function appData() {
+            return {
+                // Modales State
+                qrModal: false,
+                servicesModal: false,
+                scheduleModal: false,
+                calendarModal: false,
+                timePickerModal: false,
+                successModal: false,
+
+                // Datos de la empresa
+                phone: '573116108800',
+                email: 'opticadiversamzls@gmail.com',
+                companyName: 'Óptica Diversa',
+
+                // Calendario State
+                currentDate: new Date(),
+                currentMonth: new Date().getMonth(),
+                currentYear: new Date().getFullYear(),
+                selectedDay: null,
+                selectedTime: null,
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                dayNames: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+                calendarDays: [],
+                // Horarios disponibles corregidos y organizados
+                availableTimes: [
+                    '8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', 
+                    '11:00 AM', '11:30 AM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', 
+                    '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM'
+                ],
+
+                init() {
+                    this.renderCalendar();
+                },
+
+                // Generador del Calendario
+                renderCalendar() {
+                    this.calendarDays = [];
+                    const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
+                    const totalDays = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    // Padding para días antes del 1 del mes
+                    for (let i = 0; i < firstDay; i++) {
+                        this.calendarDays.push({ id: 'empty-' + i, date: null });
+                    }
+
+                    // Días del mes
+                    for (let day = 1; day <= totalDays; day++) {
+                        const dateObj = new Date(this.currentYear, this.currentMonth, day);
+                        const isSunday = dateObj.getDay() === 0;
+                        const isPast = dateObj < today;
+                        const isToday = dateObj.getTime() === today.getTime();
+
+                        this.calendarDays.push({
+                            id: 'day-' + day,
+                            date: day,
+                            fullDate: dateObj,
+                            isSunday: isSunday,
+                            isPast: isPast,
+                            isToday: isToday,
+                            isSelected: this.selectedDay && this.selectedDay.fullDate.getTime() === dateObj.getTime()
+                        });
+                    }
+                },
+
+                previousMonth() {
+                    if (this.currentMonth === 0) {
+                        this.currentMonth = 11;
+                        this.currentYear--;
+                    } else {
+                        this.currentMonth--;
+                    }
+                    this.renderCalendar();
+                },
+
+                nextMonth() {
+                    if (this.currentMonth === 11) {
+                        this.currentMonth = 0;
+                        this.currentYear++;
+                    } else {
+                        this.currentMonth++;
+                    }
+                    this.renderCalendar();
+                },
+
+                selectDate(day) {
+                    if (day.isPast || day.isSunday) return;
+                    this.selectedDay = day;
+                    this.renderCalendar();
+                },
+
+                confirmDate() {
+                    if (!this.selectedDay) return;
+                    this.calendarModal = false;
+                    this.timePickerModal = true;
+                },
+
+                selectTime(time) {
+                    this.selectedTime = time;
+                },
+
+                confirmBooking() {
+                    if (!this.selectedTime) return;
+                    this.timePickerModal = false;
+                    this.successModal = true;
+                },
+
+                get formattedSelectedDate() {
+                    if (!this.selectedDay) return '';
+                    const date = this.selectedDay.fullDate;
+                    return `${date.getDate()} de ${this.monthNames[date.getMonth()]} de ${date.getFullYear()}`;
+                },
+
+                openWhatsAppBooking() {
+                    const message = encodeURIComponent(`Hola Óptica Diversa, me gustaría agendar una cita para el ${this.formattedSelectedDate} a las ${this.selectedTime}.`);
+                    window.open(`https://api.whatsapp.com/send?phone=${this.phone}&text=${message}`, '_blank');
+                    this.successModal = false;
+                },
+
+                // Descarga de Tarjeta VCard de Contacto
+                downloadVCard() {
+                    const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN:Óptica Diversa
+ORG:Óptica Diversa
+TEL;TYPE=CELL:+573116108800
+EMAIL:opticadiversamzls@gmail.com
+ADR;TYPE=WORK:;;Cl 24 # 21-29;Manizales;Caldas;;Colombia
+URL:https://www.opticadiversa.co/
+END:VCARD`;
+
+                    const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'Optica_Diversa.vcf');
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                },
+
+                // Generador de QR dinámico basado en la URL actual
+                getQrCodeUrl() {
+                    const currentUrl = encodeURIComponent(window.location.href);
+                    return `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${currentUrl}`;
+                }
+            };
+        }
+    </script>
+</body>
+</html>
